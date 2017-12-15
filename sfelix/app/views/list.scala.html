@@ -1,0 +1,31 @@
+@(products: List[Product])
+
+@main("List of products") {
+    <div class="row bg-light py-2">
+        <div class="col-12">Number of products: @products.size()</div>
+        @if(flash.containsKey("success")) { <div class="col-12 text-success">@flash.get("success")</div> }
+    </div>
+    <div class="row bg-light">
+        <ul class="list-group w-100">
+        @for(product <- products) {
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-2 text-secondary" class="text-secondary">@product.ean</div>
+                    <div class="col-3" class="text-secondary">@product.name</div>
+                    <div class="col-4 text-info">@product.description</div>
+                    <div class="col-2">
+                        @if(product.picture != null) { <img src="@routes.Products.downloadPicture(product.ean)" alt="..." class="mr-5" height="24px"> }
+                        @if(product.picturePath != null) { <img src="@routes.Assets.versioned(product.picturePath)" alt="..." class="mr-5" height="24px"> }
+                    </div>
+
+                    <div class="col-1 ml-auto">
+                        <div class="float-left mr-2"><a href="@routes.Products.details(product.ean)" title="details"><span class="oi oi-spreadsheet"></span></a></div>
+                        <div class="float-left mr-2"><a href="@routes.Products.modifyProduct(product.ean)" title="modify"><span class="oi oi-pencil"></span></a></div>
+                        <div class="float-left"><a href="#" onclick="deleteProduct('@routes.Products.saveDeleteProduct(product.ean)')" title="delete"><span class="oi oi-trash"></span></a></div>
+                    </div>
+                </div>
+            </li>
+        }
+        </ul>
+    </div>
+}

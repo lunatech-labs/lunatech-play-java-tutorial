@@ -1,0 +1,16 @@
+@(product: Product)
+
+@main(product.name) {
+    <div class="row bg-light pt-2">
+        <div class="col-2">@product.ean</div>
+        <div class="col-10">
+            <div class="float-right mr-1"><a href="#" onclick="deleteProduct('@routes.Products.saveDeleteProduct(product.ean)')" title="delete"><span class="oi oi-trash"></span></a></div>
+            <div class="float-right mr-3"><a href="@routes.Products.modifyProduct(product.ean)" title="modify"><span class="oi oi-pencil"></span></a></div>
+        </div>
+    </div>
+    <div class="row media bg-light py-2">
+        @if(product.picture != null) { <img src="@routes.Products.downloadPicture(product.ean)" alt="..." class="my-2 mx-2" width="300px" height="auto"> }
+        @if(product.picturePath != null) { <img src="@routes.Assets.versioned(product.picturePath)" alt="..." class="my-2 mx-2" width="300px" height="auto"> }
+        <div class="media-body">@product.description</div>
+    </div>
+}

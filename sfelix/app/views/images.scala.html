@@ -1,0 +1,37 @@
+@(form: DynamicForm)
+
+@main("Images") {
+
+    @helper.form(action = routes.Products.searchImage()) {
+        <div class="row">
+            @helper.inputText(form("query"), 'placeholder -> "Enter query", '_label -> "", '_showConstraints -> false, 'size -> 35 )
+            <dl class="float-left">
+                <dt>&nbsp;</dt>
+                <dd><button name="action" value="searchImage" class="ml-4 btn btn-primary btn-sm" style="width: 300px;">Search image</button></dd>
+            </dl>
+        </div>
+        <div class="row">
+            @helper.inputText(form("query2"), 'placeholder -> "Enter query", '_label -> "", '_showConstraints -> false, 'size -> 35 )
+            <dl class="float-left">
+                <dt>&nbsp;</dt>
+                <dd><button name="action" value="searchDownloadImage" class="ml-4 btn btn-success btn-sm" style="width: 300px;">Search + download images</button></dd>
+            </dl>
+        </div>
+        <div class="row">
+            @helper.inputText(form("query3"), 'placeholder -> "Enter query", '_label -> "", '_showConstraints -> false, 'size -> 35 )
+            <dl class="float-left">
+                <dt>&nbsp;</dt>
+                <dd><button name="action" value="searchDownloadUpdateImage" class="ml-4 btn btn-danger btn-sm" style="width: 300px;">Search + download + update images</button></dd>
+            </dl>
+        </div>
+        <div class="row">
+            @helper.inputText(form("query4"), 'placeholder -> "Enter query", '_label -> "", '_showConstraints -> false, 'size -> 35 )
+            <dl class="float-left">
+                <dt>&nbsp;</dt>
+                <dd><button name="action" value="searchProducts" class="ml-4 btn btn-info btn-sm" style="width: 300px;">Search in products</button></dd>
+            </dl>
+        </div>
+    }
+    @if(flash.containsKey("success")) { <div class="col-12 text-success">@flash.get("success")</div> }
+    @if(flash.containsKey("error")) { <div class="col-12 text-danger">@flash.get("error")</div> }
+}

@@ -1,0 +1,18 @@
+@(form: play.data.Form[Product])
+
+@main("New Product") {
+
+    @helper.form(action = routes.Products.saveNewProduct(), 'enctype -> "multipart/form-data", 'class -> "form-inline d-flex flex-row align-items-start") {
+        <div class="row">
+            @helper.inputText(form("ean"), 'placeholder -> "Enter unique EAN", '_showConstraints -> false)
+            @helper.inputText(form("name"), '_showConstraints -> false)
+            @helper.inputText(form("description"), 'size -> 45, '_showConstraints -> false)
+            @helper.inputFile(form("picture"))
+
+            <dl class="float-left">
+                <dt>&nbsp;</dt>
+                <dd><button value="Save">Save new product</button></dd>
+            </dl>
+        </div>
+    }
+}

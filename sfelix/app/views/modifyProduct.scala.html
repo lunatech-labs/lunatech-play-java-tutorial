@@ -1,0 +1,17 @@
+@(oldEan: String, form: play.data.Form[Product])
+
+@main("Modify Product") {
+
+    @helper.form(action = routes.Products.saveModifiedProduct(oldEan), 'enctype -> "multipart/form-data", 'class -> "form-inline d-flex flex-row align-items-start") {
+
+        @helper.inputText(form("ean"), 'placeholder -> "Enter unique EAN", '_showConstraints -> false)
+        @helper.inputText(form("name"), '_showConstraints -> false)
+        @helper.inputText(form("description"), 'size -> 45, '_showConstraints -> false)
+        @helper.inputFile(form("picture"))
+
+        <dl>
+            <dt>&nbsp;</dt>
+            <dd><button value="Save">Save product</button></dd>
+        </dl>
+    }
+}

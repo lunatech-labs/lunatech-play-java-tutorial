@@ -1,0 +1,21 @@
+@()
+
+@main(Messages("home.title")) {
+
+    <div class="row">
+        <div class="col-2 bg-primary">&nbsp;</div>
+        <div class="col-8">
+            <a href="@routes.Products.list()" class="my-2">See list of products</a>
+            <h3>New product</h3>
+            <a href="@routes.Products.newProduct()" role="button" class="btn btn-primary my-2">Create new product</a>
+            <a href="@routes.Products.loadSamples()" role="button" class="btn btn-danger my-2 ml-3">Reset products</a>
+            <a href="@routes.Products.images()" role="button" class="btn btn-success my-2 ml-3">Search images</a>
+            <a href="@routes.SearchController.images(null)" role="button" class="btn btn-info my-2 ml-3">Search images (Akka)</a>
+        </div>
+        <div class="col-2 bg-primary">&nbsp;</div>
+    </div>
+    <div class="row">
+        <img src="@routes.Assets.versioned("images/home.jpg")" class="img-fluid" width="100%">
+    </div>
+}
+

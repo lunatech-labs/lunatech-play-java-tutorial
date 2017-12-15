@@ -1,0 +1,47 @@
+@(form: DynamicForm, withCallback: Boolean)
+
+@main("Search images") {
+
+
+    <input type="hidden" id="searchImagesAction" value="@routes.SearchController.searchImages(null)"/>
+    <input type="hidden" id="searchImagesWithCallbackAction" value="@routes.SearchController.searchImages("1")"/>
+
+    <div class="row form-check">
+
+        <label class="form-check-label">
+            @if(withCallback) {
+                <input type="checkbox" id="callbackSelection" class="form-check-input" checked>
+            } else {
+                <input type="checkbox" id="callbackSelection" class="form-check-input" >
+            }
+            Choose if you want wait the response
+        </label>
+    </div>
+
+    @helper.form(action = routes.SearchController.searchImages(if(withCallback) "1" else null), 'id -> "searchForm") {
+        <div class="row">
+            @helper.inputText(form("query"), 'placeholder -> "Enter query", '_label -> "", '_showConstraints -> false, 'size -> 35 )
+            <dl class="float-left">
+                <dt>&nbsp;</dt>
+                <dd><button name="action" value="searchImage" class="ml-4 btn btn-primary btn-sm" style="width: 300px;">Search image</button></dd>
+            </dl>
+        </div>
+        <div class="row">
+            @helper.inputText(form("query2"), 'placeholder -> "Enter query", '_label -> "", '_showConstraints -> false, 'size -> 35 )
+            <dl class="float-left">
+                <dt>&nbsp;</dt>
+                <dd><button name="action" value="searchDownloadImage" class="ml-4 btn btn-success btn-sm" style="width: 300px;">Search + download images</button></dd>
+            </dl>
+        </div>
+        <div class="row">
+            @helper.inputText(form("query3"), 'placeholder -> "Enter query", '_label -> "", '_showConstraints -> false, 'size -> 35 )
+            <dl class="float-left">
+                <dt>&nbsp;</dt>
+                <dd><button name="action" value="searchDownloadUpdateImage" class="ml-4 btn btn-danger btn-sm" style="width: 300px;">Search + download + update images</button></dd>
+            </dl>
+        </div>
+    }
+    @if(flash.containsKey("success")) { <div class="col-12 text-success">@flash.get("success")</div> }
+    @if(flash.containsKey("error")) { <div class="col-12 text-danger">@flash.get("error")</div> }
+
+}
