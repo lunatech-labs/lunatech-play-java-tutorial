@@ -1,0 +1,39 @@
+@*
+* This template takes a single argument, a String containing a
+* message to display.
+*@
+
+@(message: String)
+@*
+* Call the `main` template with two arguments. The first
+* argument is a `String` with the title of the page, the second
+* argument is an `Html` object containing the body of the page.
+*@
+@main("Welcome to Híquéà") {
+
+    <h1>@message</h1>
+    <div>
+        <a href="@routes.Elastic4sTesterController.test()"><button> see test result</button></a>
+        <br>
+        <br>
+        <a href="@routes.ProductsController.releaseDB()"><button> release dataBase</button></a>
+        <br>
+        <br>
+        <a href="@routes.ProductsController.listing()"><button> the listing of products</button></a>
+        <br>
+        <br>
+        <a href="@routes.ProductsController.loadSamples()"><button> load samples products data</button></a>
+        <br>
+        <br>
+        <a href="@routes.ProductsController.newProduct()"><button> add new product</button></a>
+        <br>
+        <br>
+        <a href="@routes.ProductsController.averagePrice()"><button> average price for products</button></a>
+        <br>
+        <br>
+        <a href="@routes.ProductsController.topAndLessTenDescriptionOcc()"><button> top and less of descriptions</button></a>
+        <br>
+        <br>
+
+    </div>
+}

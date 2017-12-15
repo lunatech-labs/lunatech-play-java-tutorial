@@ -1,0 +1,14 @@
+@import services.Product
+@(myForm: Form[Product])(implicit messages: play.api.i18n.Messages, request: RequestHeader)
+@main("New Product") {
+
+    <div class="form form-inline">
+    @helper.form(action = helper.CSRF(routes.ProductsController.saveProduct)){
+        @helper.inputText(myForm("ean"), 'placeholder -> "enter unique EAN")
+        @helper.inputText(myForm("name"))
+        @helper.inputText(myForm("description"))
+        @helper.inputText(myForm("price"))
+        <button class="btn btn-xs btn-warning" type="submit" value="Save" > save </button>
+    }
+    </div>
+}

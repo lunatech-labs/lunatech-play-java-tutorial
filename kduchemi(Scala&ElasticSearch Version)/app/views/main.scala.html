@@ -1,0 +1,54 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+
+            <!-- Bootstrap -->
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css")">
+        <script src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.min.js")" crossorigin="anonymous"></script>
+
+    </head>
+    <body id="home">
+        <h1  id="top-page">Híquéà Factory</h1><br>
+
+        <div class="container">
+            <a href="#bottom-page" class="btn btn-xs btn-default"> END Page</a>
+            <section id="navbar" class="jumbotron">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <ul class="nav nav-tabs">
+                        <li role="presentation">
+                            <a href="@routes.HomeController.index()" >Home</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="@routes.ProductsController.listing()">List of products</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="@routes.ProductsController.loadSamples()">Load Samples Products</a>
+                        <li role="presentation">
+                            <form action="@routes.ProductsController.searchAll("?")">
+                                <input type="search" name="term" id="search-input">
+                                <input type="submit" class="btn btn-xs btn-warning" value="Search product">
+                            </form>
+                        </li>
+                        <br><br>
+                    </ul>
+                </div>
+            </section>
+            <div id="main">
+            @content
+            </div>
+
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="/Users/kduche/.ivy2/cache/org.webjars/requirejs/jars/requirejs-2.3.3.jar"></script>
+
+            <a class="footer btn btn-xs btn-default" id="bottom-page" href="#top-page"> TOP Page </a>
+        </div>
+    </body>
+</html>

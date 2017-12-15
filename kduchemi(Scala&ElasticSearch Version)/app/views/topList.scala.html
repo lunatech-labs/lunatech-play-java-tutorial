@@ -1,0 +1,18 @@
+@(listOfData: List[(String, String)])
+
+@main("List of products") {
+
+    <div>
+        List of data : @listOfData.size items
+    </div>
+
+    <table class="table table-striped">
+
+        @listOfData.map { data =>
+            <tr>
+                <td>@data._1 </td>
+                <td>@data._2 </td>
+            </tr>
+        }
+    </table>
+}

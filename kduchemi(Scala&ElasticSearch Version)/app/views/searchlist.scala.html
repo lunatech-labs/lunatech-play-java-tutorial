@@ -1,0 +1,32 @@
+@import services.Product
+@(listOfProductsFound: List[Product])(term: String)
+
+@main("Listing of products corresponding to the search by name") {
+
+    <div>
+        Result of search : @listOfProductsFound.size item founds
+    </div>
+
+    <table class="table table-striped">
+        <tr>
+            <td>Ean <a href="@routes.ProductsController.searchListingBy("ean-asc", term)">^</a><a href="@routes.ProductsController.searchListingBy("ean-desc", term)">v</a></td>
+            <td>Name <a href="@routes.ProductsController.searchListingBy("name-asc", term)">^</a><a href="@routes.ProductsController.searchListingBy("name-desc", term)">v</a></td>
+            <td>Description <a href="@routes.ProductsController.searchListingBy("description-asc", term)">^</a><a href="@routes.ProductsController.searchListingBy("description-desc", term)">v</a></td>
+            <td>Price <a href="@routes.ProductsController.searchListingBy("price-asc", term)">^</a><a href="@routes.ProductsController.searchListingBy("price-desc", term)">v</a></td>
+            <td></td>
+            <td></td>
+
+        </tr>
+
+        @listOfProductsFound.map { product =>
+            <tr>
+                <td>@product.ean </td>
+                <td>@product.name </td>
+                <td>@product.description </td>
+                <td>@product.price </td>
+                <td><a href="@routes.ProductsController.details(product.ean)" class="btn btn-xs btn-warning"> details </a></td>
+                <td><a href="@routes.ProductsController.remove(product.ean)" class="btn btn-xs btn-danger"> remove </a></td>
+            </tr>
+        }
+    </table>
+}

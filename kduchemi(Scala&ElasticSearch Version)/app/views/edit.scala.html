@@ -1,0 +1,27 @@
+@import services.Product
+@(myForm : Form[Product])(implicit messages: play.api.i18n.Messages, request: RequestHeader)
+@import helper._
+
+@main("New Product") {
+
+    <div class="form form-inline">
+        <h1> edit product => ref : @myForm("ean").value
+            <br>
+            @myForm("name").value
+            (
+            @myForm("description").value
+            ) :
+            @myForm("price").value
+            Euro </h1>
+        @form(action = helper.CSRF(routes.ProductsController.saveProduct)){
+            <input type="hidden" name="ean" value="@myForm("ean").value">
+            @helper.inputText(myForm("name"))
+            @helper.inputText(myForm("description"))
+            @helper.inputText(myForm("price"))
+            <button class="btn btn-xs btn-warning" type="submit" value="Save" > save </button>
+            <td><a href="@routes.ProductsController.remove(myForm("ean").value.get)" class="btn btn-xs btn-danger"> remove </a></td>
+
+        }
+    </div>
+
+}

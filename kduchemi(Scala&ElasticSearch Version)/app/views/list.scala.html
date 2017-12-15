@@ -1,0 +1,33 @@
+@import services.Product
+@(listOfProducts: List[Product])
+
+@main("List of products") {
+
+    <div>
+        List of products : @listOfProducts.size items
+    </div>
+
+    <table class="table table-striped">
+        <tr>
+            <td>Ean <a href="@routes.ProductsController.listingBy("ean-asc")">^</a><a href="@routes.ProductsController.listingBy("ean-desc")">v</a></td>
+            <td>Name <a href="@routes.ProductsController.listingBy("name-asc")">^</a><a href="@routes.ProductsController.listingBy("name-desc")">v</a></td>
+            <td>Description <a href="@routes.ProductsController.listingBy("description-asc")">^</a><a href="@routes.ProductsController.listingBy("description-desc")">v</a></td>
+            <td>Price <a href="@routes.ProductsController.listingBy("price-asc")">^</a><a href="@routes.ProductsController.listingBy("price-desc")">v</a></td>
+            <td></td>
+            <td></td>
+
+        </tr>
+
+        @listOfProducts.map { product =>
+            <tr>
+                <td>@product.ean </td>
+                <td>@product.name </td>
+                <td>@product.description </td>
+                <td>@product.price </td>
+                <td><a href="@routes.ProductsController.details(product.ean)" class="btn btn-xs btn-warning"> details </a></td>
+                <td><a href="@routes.ProductsController.remove(product.ean)" class="btn btn-xs btn-danger"> remove </a></td>
+
+            </tr>
+        }
+    </table>
+}

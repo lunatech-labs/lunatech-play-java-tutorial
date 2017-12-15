@@ -14,3 +14,5 @@ server.pid
 *.eml
 /dist/
 .cache
+kduchemin/.DS_Store
+.DS_Store
