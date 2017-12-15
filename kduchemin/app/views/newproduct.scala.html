@@ -1,0 +1,15 @@
+@(myForm: Form[models.Product])
+@import helper._
+@main("New Product") {
+
+    <div class="form form-inline">
+    @form(action = routes.Products.saveNewProduct(), 'enctype -> "multipart/form-data"){
+        <input type="hidden" name="id" value="">
+        @helper.inputText(myForm("ean"), 'placeholder -> "enter unique EAN")
+        @helper.inputText(myForm("name"))
+        @helper.inputText(myForm("description"))
+        @helper.inputFile(myForm("picture"))
+        <button class="btn btn-xs btn-warning" type="submit" value="Save" > save </button>
+    }
+    </div>
+}

@@ -1,0 +1,22 @@
+@(myForm : Form[models.Product])
+@import helper._
+
+@main("Do you want remove this Product?") {
+
+    <div class="form form-inline">
+        <h1> edit @myForm("ean").value()</h1>
+        @form(action = routes.Products.remove(), 'enctype -> "multipart/form-data"){
+            <p>
+                @myForm("ean").value()<br>
+                <input type="hidden" name="id" value="@myForm("id").value()">
+                @myForm("name").value()<br>
+                @myForm("description").value()<br>
+                @if(null != myForm("picture").value()) {
+                    <img src="@routes.Products.picture(myForm("ean").value())"><br>
+                }
+            </p>
+            <button class="btn btn-xs btn-danger" type="submit" value="Remove" > remove </button>
+        }
+    </div>
+
+}

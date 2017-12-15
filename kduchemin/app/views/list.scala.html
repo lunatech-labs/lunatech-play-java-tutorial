@@ -1,0 +1,34 @@
+@import controllers.routes._
+@(listOfProducts: List[Product])
+
+@main("List of products") {
+
+    @if(flash.containsKey("success")) {
+        <div class="alert alert-success" role="alert">
+        @flash.get("success")
+        </div>
+    }
+    <div>
+        List of products : @listOfProducts.size() items
+    </div>
+    <table class="table table-striped">@listOfProducts.sortWith((p1, p2) => p1.ean.compare(p2.ean) < 0).map { product =>
+        <tr>
+            <td>@product.ean </td>
+            <td>@product.name </td>
+            <td>@product.description </td>
+            <td> @if(null != product.picture) {
+                    <img src="@Products.picture(product.ean)" class="product_picture">
+                } else {
+                    @if(null != product.pathLocalPicture) {
+                        <img src="@routes.Assets.at(product.pathLocalPicture.replace("./public/images/",""))" class="product_picture">
+                    } else {
+                        No picture
+                    }
+                }
+            </td>
+            <td><a href="@Products.details(product.ean)" class="btn btn-xs btn-warning"> details </a></td>
+            <td><a href="@Products.removeAsking(product.ean)" class="btn btn-xs btn-danger"> remove </a></td>
+        </tr>
+    }
+    </table>
+}

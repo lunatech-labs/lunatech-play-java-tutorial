@@ -1,0 +1,21 @@
+@(myForm : Form[models.Product])
+@import helper._
+
+@main("New Product") {
+
+    <div class="form form-inline">
+        <h1> edit @myForm("ean").value()</h1>
+        @form(action = routes.Products.updateProduct(), 'enctype -> "multipart/form-data"){
+            <input type="hidden" name="ean" value="@myForm("ean").value()">
+            <input type="hidden" name="id" value="@myForm("id").value()">
+            @helper.inputText(myForm("name"))
+            @helper.inputText(myForm("description"))
+            @if(null != myForm("picture").value()) {
+                <img src="@routes.Products.picture(myForm("ean").value())">
+            }
+            @helper.inputFile(myForm("picture"))
+            <button class="btn btn-xs btn-warning" type="submit" value="Save" > save </button>
+        }
+    </div>
+
+}

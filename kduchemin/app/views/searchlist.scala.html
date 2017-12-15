@@ -1,0 +1,31 @@
+@(listOfProductsFound: List[Product])
+
+@main("Listing of products corresponding to the search by name") {
+
+    <div>
+        Result of search : @listOfProductsFound.size() item founds
+
+            @if(flash.containsKey("success")) {
+                <div class="alert alert-success" role="alert">
+                @flash.get("success")
+                </div>
+            }
+    </div>
+        <table class="table table-striped">@listOfProductsFound.sortWith((p1, p2) => p1.ean.compare(p2.ean) < 0).map { product =>
+        <tr>
+            <td>@product.ean </td>
+            <td>@product.name </td>
+            <td>@product.description </td>
+            <td>@if(null != product.picture) {
+                <img src="@routes.Products.picture(product.ean)" class="product_picture">
+            } else {
+                No picture
+            }
+            </td>
+            <td><a href="@routes.Products.details(product.ean)" class="btn btn-xs btn-warning"> details </a></td>
+            <td><a href="@routes.Products.removeAsking(product.ean)" class="btn btn-xs btn-danger"> remove </a></td>
+
+        </tr>
+    }
+    </table>
+}

@@ -1,0 +1,36 @@
+@(testList : List[WebSearch])
+
+
+@main("List of img searches"){
+    <div class="container theme-showcase" role="main">
+        <h1>List of img searches</h1>
+
+        @if(flash.containsKey("success")) {
+            <div class="alert alert-success" role="alert">
+            @flash.get("success")
+            </div>
+        }
+
+        We have @testList.size() terms searched.
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>url</th>
+            </thead>
+            <tbody>
+            @testList.map{prod=>
+                <tr>
+                    <td>@prod.name</td>
+                    <td>@for(iurl <- prod.urlList) {
+                        <br>@iurl.url</br>
+                    }
+
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
