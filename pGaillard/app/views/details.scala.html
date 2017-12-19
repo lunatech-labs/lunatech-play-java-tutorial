@@ -1,0 +1,29 @@
+@(myform: Form[models.Product])(implicit messages: play.api.i18n.Messages, request: RequestHeader)
+
+
+
+@import helper._
+
+
+
+
+@main("Edit a product"){
+  <div class="container theme-showcase" role="main">
+    <h1>Product edition</h1>
+
+  @form(action = helper.CSRF(routes.ProductsController.saveEdit), 'enctype -> "multipart/form-data"){
+    @helper.inputText(myform("ean"))
+    @helper.inputText(myform("name"))
+    @helper.inputText(myform("description"))
+    @helper.inputText(myform("price"))
+
+
+    <button type="submit" class="btn btn-lg btn-success" value="Save">
+      <span class="glyphicon glyphicon-save" aria-hidden="true"></span>Submit
+    </button>
+  }
+
+
+  </div>
+}
+

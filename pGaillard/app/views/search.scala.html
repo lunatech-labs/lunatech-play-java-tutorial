@@ -1,0 +1,68 @@
+@(myform: Form[models.WordSearch],productList : List[Product],averagePrice : Float,wordSearched : String)(implicit messages: play.api.i18n.Messages, request: RequestHeader)
+
+
+
+@import helper._
+
+
+
+
+
+
+
+
+
+@main("List of all products"){
+  <div class="container theme-showcase" role="main">
+    <h1>Search functions</h1>
+
+    @*   @if(flash.containsKey("success")) {
+    <div class="alert alert-success" role="alert">
+    @flash.get("success")
+    </div>
+    }*@
+
+    <p>
+      <a href="@routes.ProductsController.searchTop10">Top ten</a>
+    </p>
+
+    @form(action = helper.CSRF(routes.ProductsController.searchByName)){
+      @helper.inputText(myform("aWord"),'placeholder -> "Enter product name")
+
+      <button type="submit" class="btn btn-lg btn-success" value="Save">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+      </button>
+
+    }
+
+    We have @productList.size products, we searched @wordSearched.
+    Average price is @averagePrice
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>EAN</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Edit</th>
+      </thead>
+      <tbody>
+      @productList.sortBy(x=>x.name).map{prod=>
+        <tr>
+          <td>@prod.ean</td>
+          <td>@prod.name</td>
+          <td>@prod.description</td>
+          <td>@prod.price</td>
+
+          <td><a href="@routes.ProductsController.editProd(prod.ean)" class="btn btn-primary" value="edit">
+          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+          <a href="@routes.ProductsController.deleteProd(prod.ean)" class="btn btn-danger" value="edit">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+}
+

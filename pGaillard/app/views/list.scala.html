@@ -1,0 +1,48 @@
+@(productList : List[Product],totalNumberResults : Int,page : Int)
+
+
+@main("List of all products"){
+<div class="container theme-showcase" role="main">
+    <h1>List of all products</h1>
+
+ @*   @if(flash.containsKey("success")) {
+    <div class="alert alert-success" role="alert">
+        @flash.get("success")
+    </div>
+    }*@
+
+    We have @totalNumberResults products. Results @{(page-1)*500} to @{(page)*500} are shown.
+
+    <p>
+        <a href="@routes.ProductsController.nextResults(page)">Next results</a>
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>EAN</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Description</th>
+            <th>Edit</th>
+        </thead>
+        <tbody>
+        @productList.sortBy(x=>x.name).map{prod=>
+        <tr>
+            <td>@prod.ean</td>
+            <td>@prod.name</td>
+            <td>@prod.description</td>
+            <td>@prod.price</td>
+
+            <td><a href="@routes.ProductsController.editProd(prod.ean)" class="btn btn-primary" value="edit">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                <a href="@routes.ProductsController.deleteProd(prod.ean)" class="btn btn-danger" value="edit">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td>
+        </tr>
+        }
+        </tbody>
+    </table>
+
+
+</div>
+}

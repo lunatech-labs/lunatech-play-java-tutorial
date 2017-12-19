@@ -1,0 +1,29 @@
+@(message: String)
+
+@main("Welcome to Play") {
+  <h1>Welcome to Play!</h1>
+
+  <p>
+    <a href="@routes.ProductsController.loadSamples">Load products</a>
+  </p>
+
+  <p>
+    <a href="@routes.ProductsController.list()">List products</a>
+  </p>
+
+  <p>
+    <a href="@routes.ProductsController.doubleEdit">Double edit test</a>
+  </p>
+
+
+  <p>
+    <a href="@routes.HomeController.searchInit()">Write</a>
+  </p>
+  <p>
+    <a href="@routes.HomeController.searchRead()">Read</a>
+  </p>
+
+<p>@message</p>
+
+
+}
