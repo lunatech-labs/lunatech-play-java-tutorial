@@ -1,0 +1,14 @@
+2018-01-03 17:21:53,942 [INFO] from org.mongodb.driver.cluster in ForkJoinPool-1-worker-1 - Cluster created with settings {hosts=[localhost:27020], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=50}
+2018-01-03 17:21:54,193 [INFO] from org.mongodb.driver.connection in cluster-ClusterId{value='5a4d0321f8b54ef8fac559d3', description='null'}-localhost:27020 - Opened connection [connectionId{localValue:1, serverValue:1434}] to localhost:27020
+2018-01-03 17:21:54,198 [INFO] from org.mongodb.driver.cluster in cluster-ClusterId{value='5a4d0321f8b54ef8fac559d3', description='null'}-localhost:27020 - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27020, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 4, 2]}, minWireVersion=0, maxWireVersion=5, maxDocumentSize=16777216, roundTripTimeNanos=1859712}
+2018-01-03 17:21:54,301 [INFO] from org.mongodb.driver.connection in ForkJoinPool-1-worker-1 - Opened connection [connectionId{localValue:2, serverValue:1435}] to localhost:27020
+2018-01-03 17:21:54,375 [INFO] from com.github.mongobee.Mongobee in ForkJoinPool-1-worker-1 - Mongobee acquired process lock, starting the data migration sequence..
+2018-01-03 17:21:54,602 [INFO] from com.github.mongobee.Mongobee in ForkJoinPool-1-worker-1 - [ChangeSet: id=insertProducts, author=INIT, changeLogClass=models.changelog.DevChangelog, changeSetMethod=insertProducts] passed over
+2018-01-03 17:21:54,602 [INFO] from com.github.mongobee.Mongobee in ForkJoinPool-1-worker-1 - Mongobee is releasing process lock.
+2018-01-03 17:21:54,608 [INFO] from com.github.mongobee.Mongobee in ForkJoinPool-1-worker-1 - Mongobee has finished his job.
+2018-01-03 17:21:54,948 [INFO] from akka.event.slf4j.Slf4jLogger in application-akka.actor.default-dispatcher-2 - Slf4jLogger started
+2018-01-03 17:21:55,295 [WARN] from repository.DatabaseExecutionContext in application-akka.actor.default-dispatcher-3 - ec=Dispatcher[mongo-execution-context]
+2018-01-03 17:21:55,335 [WARN] from repository.ProductDAO in application-akka.actor.default-dispatcher-3 - injected ec=repository.DatabaseExecutionContext@d48a127
+2018-01-03 17:21:55,342 [DEBUG] from services.TaskActor in application-akka.actor.default-dispatcher-4 - Starting
+2018-01-03 17:21:55,349 [DEBUG] from services.TaskActor in application-akka.actor.default-dispatcher-4 - started (services.TaskActor@20c3b8db)
+2018-01-03 17:21:55,785 [INFO] from play.api.Play in ForkJoinPool-1-worker-1 - Application started (Dev)

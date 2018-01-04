@@ -1,0 +1,40 @@
+@(form: play.data.Form[ProductData], messages: play.i18n.Messages)
+
+@scripts = {
+    <script type='text/javascript'>
+            jQuery(document).ready(function(){
+            });
+
+            function del() {
+                jQuery.ajax({
+                    url: '@routes.Products.delete(form("ean").valueOr("New"))',
+                    type: 'DELETE',
+                    success: function(results) {
+                        window.location.href = '@routes.Products.list()';
+                    },
+                    error: function(results) {
+                        alert("nok");
+                    }
+
+                });
+            };
+    </script>
+}
+@article = {}
+
+@main(messages.at("product.createorupdate"), tab = "Database", messages, article, scripts) {
+    <div class="row">
+
+        @helper.form(routes.Products.save, 'enctype -> "multipart/form-data") {
+            <fieldset>
+                @helper.inputText(form("ean"), '_label -> messages.at("form.details.ean"), '_help -> messages.at("help.required"))
+                @helper.inputText(form("name"), '_label -> messages.at("form.details.name"))
+                @helper.textarea(form("description"), '_label -> messages.at("form.details.description"))
+                @helper.inputFile(form("picture"), '_label -> messages.at("form.details.picture"))
+                <img src="@routes.Products.showImage(form("ean").valueOr("Empty"))" height="30px" width="30px">
+            </fieldset>
+            <input type="submit" name="action" class="btn" value="Save">
+            <input type="button" name="action" class="btn-danger remove-field" value="Delete" onclick="del()">
+            }
+    </div>
+}

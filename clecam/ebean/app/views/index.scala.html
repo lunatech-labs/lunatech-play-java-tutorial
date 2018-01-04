@@ -1,0 +1,40 @@
+@*
+ * This template takes a single argument, a String containing a
+ * message to display.
+ *@
+@(tab: String, messages: play.i18n.Messages, lang:play.i18n.Lang)
+
+@scripts = {
+}
+
+@*
+ * Call the `main` template with two arguments. The first
+ * argument is a `String` with the title of the page, the second
+ * argument is an `Html` object containing the body of the page.
+ *@
+@article = {
+    @if(tab=="Database") {
+        <h2></h2>
+        <p>
+            Vous pouvez gérer la base des produits depuis le menu de droite.
+        </p>
+    }
+    @if(tab=="Bing") {
+        <p>
+            Chaque produit possède une description qui est composée de mots clefs.
+            Le service Bing de Microsoft permet de récupérer des URL d'images par mot clef.
+
+            Le menu permet de saisir un mot clef et d'interroger le service Bing. La liste des URLs
+            est ensuite sauvegardée dans un fichier. Vous pouvez aussi demander le téléchargement
+            des images et les associés aux produits dont la description est égale aux mots clefs saisis.
+        </p>
+    }
+}
+@main(title="", tab, messages, article, scripts) {
+
+    @*
+     * Get an `Html` object by calling the built-in Play welcome
+     * template and passing a `String` message.
+     *@
+
+}
