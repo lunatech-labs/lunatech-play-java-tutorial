@@ -1,0 +1,67 @@
+@(form: play.data.Form[KeywordData], messages: play.i18n.Messages)
+
+@scripts = {
+    <script type='text/javascript'>
+            jQuery(document).ready(function(){
+            });
+
+            // FIXME: formatKeyword is a clone of our java implementation. We should call a controller
+            // remove uploadImages and saveImagesToDb and manage everything in a controller.
+            function formatKeyword(url) {
+                var keyword = jQuery("#keyword").val().toLowerCase()
+                        .replace(" ", "_")
+                        .replace("/", "_")
+                        .replace("'", "_")
+                        .replace("(", "_")
+                        .replace(")", "_");
+                var url2 = url;
+                if (keyword != '')
+                    url2 = url + '?q='+encodeURI(keyword);
+                return url2;
+            }
+
+            function uploadImages(url) {
+                var url2 = formatKeyword(url);
+                jQuery.ajax({
+                    url: url2,
+                    type: 'GET',
+                    success: function(results) {
+                        window.location.href = '@routes.ImageController.selectKeywords()';
+                    },
+                    error: function(results) {
+                        alert("nok");
+                    }
+
+                });
+            };
+            function saveImagesToDb(url) {
+                var url2 = formatKeyword(url);
+                jQuery.ajax({
+                    url: url2,
+                    type: 'GET',
+                    success: function(results) {
+                        window.location.href = '@routes.ImageController.selectKeywords()';
+                    },
+                    error: function(results) {
+                        alert("nok");
+                    }
+
+                });
+            };
+    </script>
+}
+@article = {}
+
+@main(messages.at("form.bing"), tab = "Bing", messages, article, scripts) {
+    <div class="row">
+
+        @helper.form(routes.ImageController.searchKeywordSubmit) {
+            <fieldset>
+                @helper.inputText(form("keyword"), 'id -> "keyword", '_label -> messages.at("form.bing.keyword"), '_help -> messages.at("help.required"))
+            </fieldset>
+            <input type="submit" name="action" class="btn" value=@messages.at("menu.bing.searchimages")>
+            <input type="button" name="action" class="btn" value=@messages.at("menu.bing.loadimages") onclick="uploadImages('@routes.ImageController.loadImagesFromUrls()')">
+            <input type="button" name="action" class="btn" value=@messages.at("menu.bing.imagestodb") onclick="saveImagesToDb('@routes.ImageController.saveImagesForKeywordInDb()')">
+        }
+    </div>
+}

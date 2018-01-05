@@ -1,0 +1,29 @@
+@(lProducts: java.util.List[models.Product], messages: play.i18n.Messages)
+
+@main(messages.at("product.list"), tab="Database", messages) {
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>@messages.at("form.details.name")</th>
+                        <th>Ean</th>
+                        <th>@messages.at("form.details.description")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(product: Product <- lProducts) {
+                        <tr>
+                            <td><a href="@routes.Products.details(product.ean)">@product.ean</a></td>
+                            <td>@product.name</td>
+                            <td>@product.description</td>
+                            <td><a href="@routes.Products.showImage(product.ean)">@messages.at("show")</a></td>
+                            @if(product.picture !=null){
+                                <td><img src="@routes.Products.showImage(product.ean)" height="60px" width="120px"></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col"/>
+}

@@ -1,0 +1,156 @@
+@*
+ * This template is called from the `index` template. This template
+ * handles the rendering of the page header and body tags. It takes
+ * two arguments, a `String` for the title of the page and an `Html`
+ * object to insert into the body of the page.
+ *@
+@(title: String, tab: String = "Database", messages: play.i18n.Messages, article: Html = Html(""), scripts: Html = Html(""))(content: Html)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @* Here's where we render the page title `String`. *@
+        <title>@messages.at("productapp.name")</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <link rel='stylesheet' href='@routes.Assets.versioned("lib/bootstrap/css/bootstrap.min.css")'>
+        <link rel='stylesheet' href='@routes.Assets.versioned("lib/bootstrap/css/bootstrap-theme.css")'>
+        <script src="@routes.Assets.versioned("javascripts/hello.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("lib/jquery/jquery.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+        @scripts
+
+        <script type='text/javascript'>
+            function changeLang(url) {
+                jQuery.ajax({
+                    url: url,
+                    type: 'POST',
+                    success: function(results) {
+                        location.reload();
+                    },
+                    error: function(results) {}
+                });
+            };
+            @if(tab=="Database"){
+                jQuery(document).ready(function(){
+                });
+
+                function dbload() {
+                    jQuery.ajax({
+                        url: '@routes.Products.dbload()',
+                        type: 'PUT',
+                        success: function(results) {
+                            //window.location.href = '@routes.HomeController.database()';
+                            window.location.href = '@routes.Products.dbloadSuccess()';
+                        },
+                        error: function(results) {
+                            window.location.href = '@routes.Products.dbloadError()';
+                            //window.location.href = '@routes.HomeController.database()';
+                            //alert("dbload nok");
+                        }
+
+                    });
+                };
+
+                function dbclear() {
+                    jQuery.ajax({
+                        url: '@routes.Products.dbclear()',
+                        type: 'DELETE',
+                        success: function(results) {
+                            //window.location.href = '@routes.HomeController.database()';
+                            window.location.href = '@routes.Products.dbClearSuccess()';
+                        },
+                        error: function(results) {
+                            //window.location.href = '@routes.HomeController.database()';
+                            window.location.href = '@routes.Products.dbClearError()';
+                            //alert("dbclear nok");
+                        }
+
+                    });
+                };
+            }
+        </script>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="row"></div>
+            <div class="row">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    @if(lang.code() !="en"){
+                        <a href="#" onclick=changeLang("@routes.HomeController.changeLanguage("en")")><img align="right" src="@routes.Assets.versioned("images/english.png")" alt="@messages.at("english")" height="30px" width="45px"></a>
+                    }
+                    @if(lang.code() != "fr"){
+                        <a href="#" onclick=changeLang("@routes.HomeController.changeLanguage("fr")")><img align="right" src="@routes.Assets.versioned("images/french.png")" alt="@messages.at("french")"  height="30px" width="45px"></a>
+                    }
+                </div>
+            </div>
+        <!-- </div> -->
+        <section id="top">
+            <div class="wrapper">
+                <h1>@messages.at("productapp.name")</h1>
+            </div>
+
+        </section>
+        <nav id="tabmenu">
+            <ul class="nav nav-pills pull-left">
+                <li@if(tab=="Database"){ class="active"}><a href="@routes.HomeController.database">@messages.at("menu.database")</a></li>
+                <li@if(tab=="Bing"){ class="active"}><a href="@routes.HomeController.bing">@messages.at("menu.bing")</a></li>
+            </ul>
+        </nav>
+        <div id="content" class="wrapper doc">
+            <section/>
+            <article>
+                <!-- title>@title</title -->
+                @if(flash.containsKey("error")){
+                    <div class="alert alert-danger">
+                        @flash.get("error")
+                    </div>
+                }
+                @if(flash.containsKey("success")){
+                    <div class="alert alert-success">
+                        @flash.get("success")
+                    </div>
+                }
+                @article
+            <section>
+            @content
+            </section>
+
+            </article>
+
+            <aside>
+                <ul>
+                @if(tab=="Database") {
+                    <li><a class="navbar-brand" href="@routes.Products.newProduct">@messages.at("product.new")</a></li>
+                    <li><a class="navbar-brand" href="@routes.Products.list">@messages.at("showProducts")</a></li>
+                    <li><a class="navbar-brand" onclick="dbclear()" href="#">@messages.at("database.clear")</a></li>
+                    <li><a class="navbar-brand" onclick="dbload()" href="#">@messages.at("database.load")</a></li>
+                    <li><a class="navbar-brand" href="@routes.ImageController.saveAllImagesInDb">@messages.at("menu.bing.saveallimages")</a></li>
+                    <!-- li><a class="navbar-brand" href="@routes.Products.imagesDownload">@messages.at("image.download")</a></li -->
+                }
+                @if(tab=="Bing") {
+                    <li><a class="navbar-brand" href="@routes.ImageController.selectKeywords">@messages.at("image.select.keywords")</a></li>
+                    <li><a class="navbar-brand" href="@routes.ImageController.searchImageService()">test:@messages.at("image.search.service")</a></li>
+                    <li><a class="navbar-brand" href="@routes.ImageController.loadImagesFromUrls()">test:get images from url</a></li>
+                    <li><a class="navbar-brand" href="@routes.ImageController.saveImagesForKeywordInDb()">test:save images for keyword to db</a></li>
+                    <li><a class="navbar-brand" href="@routes.ImageController.saveAllImagesInFiles">test:save all images in files</a></li>
+                    <li><a class="navbar-brand" href="@routes.ImageController.showUrlsFromJsonFile()">test:read one json</a></li>
+                    <li><a class="navbar-brand" href="@routes.ImageController.retrieveAllUrl">@messages.at("menu.bing.uploadallurls")</a></li>
+                    <li><a class="navbar-brand" href="@routes.ImageController.saveAllImagesInDb">@messages.at("menu.bing.saveallimages")</a></li>
+                }
+                </ul>
+            </aside>
+        </div>
+        <!-- div class="container" -->
+            @* And here's where we render the `Html` object containing
+            * the page content. *@
+
+        </div>
+        <footer>
+            <p>&copy; 2017 Lunatech France</p>
+        </footer>
+    </body>
+</html>

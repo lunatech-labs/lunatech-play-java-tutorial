@@ -1,0 +1,40 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# HomeControler
+GET     /                           controllers.HomeController.index
+GET     /database                   controllers.HomeController.database
+GET     /bing                       controllers.HomeController.bing
+POST    /language                   controllers.HomeController.changeLanguage(code: String ?= "en")
+
+# ProductsController
+GET     /products                   controllers.Products.list
+DELETE  /flushall                   controllers.Products.dbclear
+PUT     /dbload                     controllers.Products.dbload
+GET     /products/new               controllers.Products.newProduct
+POST    /products                   controllers.Products.save
+GET     /product/:ean               controllers.Products.details(ean: String)
+GET     /product/image/:ean         controllers.Products.showImage(ean: String)
+DELETE  /product/:ean               controllers.Products.delete(ean: String)
+GET     /imagesdownload             controllers.Products.imagesDownload
+
+# ImageController
+GET     /selectkeywords             controllers.ImageController.selectKeywords
+POST    /searchKeywords             controllers.ImageController.searchKeywordSubmit
+GET     /searchimageservice         controllers.ImageController.searchImageService(q: String ?= "children's armchair")
+GET     /readimagesfromfile         controllers.ImageController.loadImagesFromUrls(q:String ?= "children's armchair")
+GET     /saveimagedownload          controllers.ImageController.saveImagesForKeywordInDb(q: String ?= "children's armchair")
+GET     /readjsonfile               controllers.ImageController.showUrlsFromJsonFile(q: String ?= "children's armchair")
+GET     /readallurl                 controllers.ImageController.retrieveAllUrl
+GET     /saveAllImageInFiles        controllers.ImageController.saveAllImagesInFiles
+GET     /saveAllImageInDb           controllers.ImageController.saveAllImagesInDb
+
+# Javascript routes
+GET      /flushallsuccess            controllers.Products.dbClearSuccess
+GET      /flushallerror              controllers.Products.dbClearError
+GET      /dbloadsuccess              controllers.Products.dbloadSuccess
+GET      /dbloaderror                controllers.Products.dbloadError
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

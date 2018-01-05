@@ -1,0 +1,3 @@
+Hiqea project in play java 2.5 with ebean.
+
+To check bing query, you need to delete the json file in the public/data folder and enter your bing key (see application.conf).
