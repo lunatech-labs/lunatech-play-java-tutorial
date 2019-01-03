@@ -1,0 +1,73 @@
+@(products: List[hexagon.Product], nbPage: Int, pageSize: Int, currentPage: Int, start: Int, end: Int)
+@main("Products Catalogue") {
+    @if(products.isEmpty()) {
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h2 class="display-4">Ow... No products found...</h2>
+            </div>
+        </div>
+    } else {
+        <!--suppress ALL -->
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h2 class="display-4">@Messages("list.of.products")</h2>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                </tr>
+            </thead>
+            @for(product <- products) {
+                <tbody>
+                    <tr>
+                        @helper.CSRF.formField
+                    <td>@product.ean</td>
+                    <td>@product.name</td>
+                    <td><a href="@routes.Products.detail(product.ean)">Details</a></td>
+                    <td>
+                        <button onclick="deleteFunction(@product.ean)" class="btn btn-danger">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+        <script>
+                var deleteFunction = function deleteProduct(ean) {
+                    return fetch("/product/delete/" + ean, {
+                        method: 'DELETE'
+                    }).then(location.reload());
+                }
+        </script>
+        <div>
+            <nav aria-label="Product navigation">
+                <ul class="pagination">
+                    @if(currentPage!=1) {
+                        <li class="page-item"><a class="page-link" href="@routes.Products.listPaginated(currentPage-1)">Previous</a></li>
+                        @if(start!=1) {
+                            <li class="page-item"><a class="page-link" href="@routes.Products.listPaginated(start-1)">...</a></li>
+                        }
+                    }
+                    @for(i <- start to end) {
+                        @if(i==currentPage) {
+                            <li class="page-item active">
+                                <a class="page-link" href="#">@i <span class="sr-only">(current)</span></a>
+                            </li>
+                        } else {
+                            <li class="page-item"><a class="page-link" href="@routes.Products.listPaginated(i)">@i</a></li>
+                        }
+                    }
+                    <li class="page-item"><a class="page-link" href="@routes.Products.listPaginated(end+1)">...</a></li>
+                    @if(currentPage!=nbPage) {
+                        <li class="page-item"><a class="page-link" href="@routes.Products.listPaginated(currentPage + 1)">Next</a></li>
+                    }
+                </ul>
+            </nav>
+        </div>
+
+    }
+}

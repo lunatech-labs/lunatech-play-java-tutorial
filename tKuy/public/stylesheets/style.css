@@ -1,0 +1,17 @@
+    header {
+        display:block;
+        overflow: hidden;
+    }
+
+    #marge {
+        max-width: 1200px;
+        margin: 0 auto;
+        margin-top: 40px;
+    }
+
+    .error{
+        background-color: red;
+    }
+
+
+

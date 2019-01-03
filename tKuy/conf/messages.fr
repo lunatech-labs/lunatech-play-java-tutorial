@@ -1,0 +1,7 @@
+list.of.products=Tous les produits que nous avons
+title.list.of.products=Produits
+
+create.product=Créer un produit
+title.create.product=Créer un produit
+
+

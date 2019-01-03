@@ -1,0 +1,20 @@
+@(myForm: Form[hexagon.Product])
+
+@main("Create product") {
+    @helper.form(action = routes.Products.create(), 'enctype -> "multipart/form-data") {
+        <div class="madiv">
+            <div class="container">
+                <div class="col-md-6">
+                    <fieldset>
+                        @helper.CSRF.formField
+                        @helper.inputText(myForm("Ean"))
+                        @helper.inputText(myForm("Name"))
+                        @helper.inputText(myForm("Description"))
+                        @helper.inputFile(myForm("picture"))
+                    </fieldset>
+                    <input type="submit">
+                </div>
+            </div>
+        </div>
+    }
+}

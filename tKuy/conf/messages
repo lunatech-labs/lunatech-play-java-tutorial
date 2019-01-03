@@ -1,0 +1,5 @@
+ean.empty=The ean is required
+ean.already.used=The id is already taken
+name.empty=The name is required
+picture.not.copied=An error has been occured when the file got copied
+error.create.form=There was an error in the form 
