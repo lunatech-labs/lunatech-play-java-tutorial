@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 public interface IProductService {
-    boolean createProduct(Form<Product> form, Http.Request request);
+    boolean createProduct(Product product, Http.Request request);
     void loadSample();
     void generateMissingPictures();
     List<Product> allProducts();

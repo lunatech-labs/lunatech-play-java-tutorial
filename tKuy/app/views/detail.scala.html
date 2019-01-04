@@ -1,5 +1,5 @@
 @(product: hexagon.Product)
-@main("Detail") {
+@main(product.name) {
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-4">@product.ean @product.name</h1>

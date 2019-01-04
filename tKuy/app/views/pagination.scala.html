@@ -1,0 +1,30 @@
+@(nbPage: Int, pageSize: Int, currentPage: Int, start: Int, end: Int)
+<!--Pagination-->
+<div>
+    <nav aria-label="Product navigation">
+        <ul class="pagination">
+            @if(currentPage!=1) {
+                <li class="page-item"><a class="page-link" href="@routes.Products.listPaginated(currentPage-1)">Previous</a></li>
+                @if(start!=1) {
+                    <li class="page-item"><a class="page-link" href="@routes.Products.listPaginated(start-1)">...</a></li>
+                }
+            }
+            @for(i <- start to end) {
+                @if(i==currentPage) {
+                    <li class="page-item active">
+                        <a class="page-link" href="#">@i <span class="sr-only">(current)</span></a>
+                    </li>
+                } else {
+                    <li class="page-item"><a class="page-link" href="@routes.Products.listPaginated(i)">@i</a></li>
+                }
+            }
+            @if(end<nbPage) {
+                <li class="page-item"><a class="page-link" href="@routes.Products.listPaginated(end+1)">...</a></li>
+            }
+
+            @if(currentPage!=nbPage) {
+                <li class="page-item"><a class="page-link" href="@routes.Products.listPaginated(currentPage + 1)">Next</a></li>
+            }
+        </ul>
+    </nav>
+</div>

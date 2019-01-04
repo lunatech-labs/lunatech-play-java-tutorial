@@ -8,6 +8,7 @@ import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import view.Pagination;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.List;
 public class Products extends Controller {
     private final static int PAGE_SIZE=20;
     @Inject
-    FormFactory formFactory;
+    private FormFactory formFactory;
     @Inject
-    IProductService productService;
+    private IProductService productService;
+    @Inject
+    private Pagination pagination;
 
     public Result generatingMissingPicturesTask() {
         return list();
@@ -36,12 +39,12 @@ public class Products extends Controller {
         if(form.hasErrors()) {
             return badRequest(views.html.createProduct.render(form));
         } else {
-         // TODO CREATE
+            productService.createProduct(form.get(), request());
         }
         return redirect(routes.Products.list());
     }
     public Result detail(Long ean) {
-        return productService.productById(Long.valueOf(ean)).map(product -> ok(views.html.detail.render(product))).orElse(notFound());
+        return productService.productById(ean).map(product -> ok(views.html.detail.render(product))).orElse(notFound());
     }
 
     public Result delete(String ean) {
@@ -64,18 +67,6 @@ public class Products extends Controller {
 
     public Result listPaginated(int page) {
         List<Product> list = productService.productListByPage(page, PAGE_SIZE);
-        int start = ((page/PAGE_SIZE))*PAGE_SIZE;
-        if(start==0) {
-            start++;
-        }
-        int end = start + PAGE_SIZE-1;
-        int max=nbPages();
-        if(end > max) {
-            end=max;
-        }
-        return ok(views.html.products.render(list,nbPages(), PAGE_SIZE, page, start, end));
-    }
-    public int nbPages() {
-        return productService.numberOfPages(PAGE_SIZE);
+        return pagination.productsPagination(list, page, PAGE_SIZE);
     }
 }

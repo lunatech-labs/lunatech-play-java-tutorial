@@ -1,4 +1,4 @@
-@(myForm: Form[hexagon.Product])
+@(myForm: play.data.Form[hexagon.Product])
 
 @main("Create product") {
     @helper.form(action = routes.Products.create(), 'enctype -> "multipart/form-data") {
@@ -7,9 +7,9 @@
                 <div class="col-md-6">
                     <fieldset>
                         @helper.CSRF.formField
-                        @helper.inputText(myForm("Ean"))
-                        @helper.inputText(myForm("Name"))
-                        @helper.inputText(myForm("Description"))
+                        @helper.inputText(myForm("ean"))
+                        @helper.inputText(myForm("name"))
+                        @helper.inputText(myForm("description"))
                         @helper.inputFile(myForm("picture"))
                     </fieldset>
                     <input type="submit">

@@ -3,7 +3,6 @@ package hexagon;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 import play.Logger;
-import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Http;
 
@@ -28,13 +27,8 @@ public class ProductService implements IProductService {
         this.productWsPicture = productWsPicture;
     }
     @Override
-    public boolean createProduct(Form<Product> form, Http.Request request) {
+    public boolean createProduct(Product product, Http.Request request) {
         Messages messages = Http.Context.current().messages();
-        if (form.hasErrors()) {
-            Logger.error(messages.at("error.create.form"));
-            return false;
-        }
-        Product product = form.get();
         File file = fileFromRequest(request);
         if (file != null) {
             try {
@@ -59,8 +53,7 @@ public class ProductService implements IProductService {
         Http.MultipartFormData<File> body = request.body().asMultipartFormData();
         Http.MultipartFormData.FilePart<File> picture = body.getFile("picture");
         if (picture != null) {
-            File file = picture.getFile();
-            return file;
+            return picture.getFile();
         } else {
             return null;
         }

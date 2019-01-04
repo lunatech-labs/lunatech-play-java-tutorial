@@ -22,6 +22,7 @@ libraryDependencies ++= Seq("com.univocity" % "univocity-parsers" % "2.4.1")
 libraryDependencies ++= Seq(javaWs, jdbc)
 libraryDependencies += "org.mockito" % "mockito-core" % "2.23.4" % Test
 libraryDependencies += "org.postgresql" % "postgresql" % "42.2.2"
+//routesGenerator := InjectedRoutesGenerator
 // Make verbose tests
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))
 //Ebean
