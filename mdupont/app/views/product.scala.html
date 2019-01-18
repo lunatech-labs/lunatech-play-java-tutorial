@@ -1,0 +1,120 @@
+@*
+* This template takes a single argument, a String containing a
+* message to display.
+*@
+@import dto.ProductDto
+
+@(messages: play.i18n.Messages, myProducts: List[ProductDto], total: Integer, page: Integer, length: Integer) {
+    @*
+    * Call the `main` template with two arguments. The first
+    * argument is a `String` with the title of the page, the second
+    * argument is an `Html` object containing the body of the page.
+    *@
+    @main("") {
+        @*
+        * Get an `Html` object by calling the built-in Play welcome
+        * template and passing a `String` message.
+        *@
+        <style>
+                .myTable {
+                    border-radius: 10px;
+                    background: rgba(244, 244, 244, 0.75);
+                }
+
+                .myThumbnail {
+
+                }
+
+                .myTh {
+                    background: #c3c3c3;
+                    font-weight: bold;
+                    padding: 5px
+                }
+        </style>
+        <div style="display: flex;
+            justify-items: center;
+            align-items: center;
+            flex-direction: column">
+            <div>
+                <button class="btn btn-default btn-primary" onClick="location.href = '@routes.ProductController.loadSamples'">
+                    Import</button>
+                <button class="btn btn-default btn-primary" onClick="location.href = '@routes.ProductController.getCreateNew'">
+                    Create</button>
+            </div>
+            <table class="myTable">
+                <thead>
+                    <tr>
+                        <th class="myTh"></th>
+                        <th class="myTh">EAN</th>
+                        <th class="myTh">Name</th>
+                        <th class="myTh">Description</th>
+                        <th class="myTh">&nbsp;</th>
+                </thead>
+                <tbody>
+
+                @for(product <- myProducts) {
+                    <tr>
+                        <td style="padding: 5px">
+                            @if(product.getUrl() != null && product.getUrl().length() != 0) {
+                                <img class=".img-thumbnail" src="@routes.Assets.versioned(product.getUrl())"/>
+                            }
+                        </td>
+                        <td style="padding: 5px"><a href="@routes.ProductController.getUpdate(product.getEan())">@product.getEan()</a></td>
+                        <td style="padding: 5px">@product.getName()</td>
+                        <td style="padding: 5px">@product.getDescription</td>
+                        <td style="padding: 5px"><button class="btn btn-danger btn-delete" data-id="@product.getEan()">Delete</button></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+            <nav aria-label="page navigation">
+                <ul class="pagination">
+                    <li class="page-item">
+                    @if(page > 1) {
+                        <a class="page-link" href="@routes.ProductController.index?page=@(page - 1)"
+                        aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    }
+                    </li>
+
+                    @for(i <- (page - 3) until (page + 2)) {
+                        @if(i <= ((total / length) - 1) && i >= 0) {
+                            @if(page != i) {
+                                <li class="page-item">
+                            } else {
+                                <li class="page-item active">
+                            }
+                                    <a class="page-link" href="@routes.ProductController.index?page=@i">@(i + 1)</a>
+                                </li>
+                        }
+                    }
+                    @if(page < (total / length) - 1) {
+                        <a class="page-link" href="@routes.ProductController.index?page=@(page + 1)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    }
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <script>
+                $(function () {
+                    $('.btn-delete').click(function () {
+                        var ean = $(this).data('id');
+
+                        $.ajax({
+                            url: "/products/" + ean,
+                            type: "DELETE"
+                        }).done(() => {
+                            console.log("Product deleted", ean);
+                            window.location.reload(true);
+                        });
+                    });
+                });
+        </script>
+    }
+}

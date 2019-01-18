@@ -1,0 +1,37 @@
+@*
+* This template takes a single argument, a String containing a
+* message to display.
+*@
+@import dto.ProductDto
+
+@(productForm: Form[ProductDto])
+    @*
+    * Call the `main` template with two arguments. The first
+    * argument is a `String` with the title of the page, the second
+    * argument is an `Html` object containing the body of the page.
+    *@
+    @main("Modify a product") {
+        @*
+        * Get an `Html` object by calling the built-in Play welcome
+        * template and passing a `String` message.
+        *@
+        <div style="width: 100vw;
+            display: flex;
+            justify-content: center;">
+            <div style="width: 500px;
+                padding: 10px;
+                border-radius: 10px;
+                background: rgba(220, 220, 220, 0.9)">
+            @helper.form(action = helper.CSRF(routes.ProductController.modify()), 'class -> "form-group") {
+
+                <div>
+                    <input class="form-control" type="hidden" name="ean" value="@productForm("ean").getValue.get"/>
+                </div>
+                @helper.inputText(productForm("name"), 'class -> "form-control")
+                @helper.inputText(productForm("description"), 'class -> "form-control", 'size -> 10)
+
+                <button class="btn btn-primary" type="submit">Save</button>
+            }
+            </div>
+        </div>
+    }

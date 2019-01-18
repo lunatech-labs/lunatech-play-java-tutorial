@@ -1,0 +1,43 @@
+@*
+* This template takes a single argument, a String containing a
+* message to display.
+*@
+@(messages: play.i18n.Messages)
+@*
+* Call the `main` template with two arguments. The first
+* argument is a `String` with the title of the page, the second
+* argument is an `Html` object containing the body of the page.
+*@
+@main("Welcome to Play") {
+    @*
+    * Get an `Html` object by calling the built-in Play welcome
+    * template and passing a `String` message.
+    *@
+    <div style="display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 pull-right">
+                    <a href="@routes.HomeController.lang("fr")">FR</a>
+                    <a href="@routes.HomeController.lang("en")">EN</a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <span style="font-size: 100px;
+                color: #e9e9e9">@messages.at("main.welcome")</span>
+        </div>
+        <div style="font-size: 60px;
+            color: #e9e9e9">
+            <a href="@routes.ProductController.index?page=0">@messages.at("main.products")</a>
+        </div>
+        <div style="font-size: 30px;
+            color: #e9e9e9">
+            <a href="@routes.ChuckNorrisController.getJoke("test")">Jokes</a>
+        </div>
+    </div>
+
+
+}

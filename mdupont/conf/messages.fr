@@ -1,0 +1,2 @@
+main.welcome = Bienvenue chez Hiquea
+main.products = Produits
