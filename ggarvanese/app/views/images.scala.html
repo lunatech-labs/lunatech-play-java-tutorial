@@ -1,0 +1,11 @@
+@import views.html.helper.form
+@import play.i18n.Messages
+@(message:Messages, imagesUrls : List[String])
+
+@main(message.at("images.title")) {
+    <div>
+       @for(image <- imagesUrls){
+           <p>@image</p>
+       }
+    </div>
+}

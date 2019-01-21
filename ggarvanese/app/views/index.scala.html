@@ -1,0 +1,24 @@
+@*
+ * This template takes a single argument, a String containing a
+ * message to display.
+ *@
+@import views.html.helper.form
+@(message: String)
+
+@*
+ * Call the `main` template with two arguments. The first
+ * argument is a `String` with the title of the page, the second
+ * argument is an `Html` object containing the body of the page.
+ *@
+@main(Messages("index.title")) {
+ <div>
+  <h1>@Messages("index.title")</h1>
+  <p><a class="memberNameLink" href="@routes.ProductsController.loadSamples">@Messages("index.initdatabase")</a></p>
+  <p><a class="memberNameLink" href="@routes.ProductsController.findAll()">@Messages("index.productlist")</a></p>
+ </div>
+ </div>
+
+    <div id="bg">
+     <image src="@routes.Assets.versioned("images/latest-home-wallpaper_015623955_147.jpg")"></image>
+    </div>
+}
