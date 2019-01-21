@@ -31,10 +31,11 @@ public class BingImageServiceImpl implements ImageService {
     @Override
     public CompletionStage<ImageSearchDatas> searchAndStoreURLs(ImageSearchDatas imageSearchDatas) {
         String searchTerm = imageSearchDatas.getSearchTerm();
+        int numberOfResults = imageSearchDatas.getNumberOfResults();
         if (StringUtils.isEmpty(searchTerm)){
             return CompletableFuture.completedFuture(imageSearchDatas);
         }
-        return lookupAndExtractJSONUrls(searchTerm)
+        return lookupAndExtractJSONUrls(searchTerm, numberOfResults)
                 .thenApply(this::extractURLs)
                 .thenApply(urls -> storeURLsAndKeyword(searchTerm, urls))
                 .thenApply(maybeFileName -> {
@@ -43,15 +44,15 @@ public class BingImageServiceImpl implements ImageService {
                 });
     }
 
-    protected CompletionStage<JsonNode> lookupAndExtractJSONUrls(String imageKeyword) {
-        WSRequest request = getRequest(imageKeyword);
+    protected CompletionStage<JsonNode> lookupAndExtractJSONUrls(String imageKeyword, int numberOfResults) {
+        WSRequest request = getRequest(imageKeyword, numberOfResults);
         return request.get().thenApply(WSResponse::asJson);
     }
 
     protected List<String> extractURLs(JsonNode jsonNode) {
         List<String> urlsList = new ArrayList<>();
         JsonNode parentNode = jsonNode.findPath("value");
-        parentNode.forEach(node -> urlsList.add(node.findPath("contentUrl").asText()));
+        parentNode.forEach(node -> urlsList.add(node.findPath("thumbnailUrl").asText()));
         return urlsList;
     }
 
@@ -81,9 +82,10 @@ public class BingImageServiceImpl implements ImageService {
     }
 
 
-    private WSRequest getRequest(String searchTerm) {
+    private WSRequest getRequest(String searchTerm, int numberOfResults) {
         return ws.url("https://api.cognitive.microsoft.com/bing/v7.0/images/search")
                 .addQueryParameter("q", searchTerm)
+                .addQueryParameter("count", String.valueOf(numberOfResults))
                 .addHeader("Ocp-Apim-Subscription-Key", "2f1e9ba3d00d47a095c71b87f092dbde");
     }
 

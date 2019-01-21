@@ -7,6 +7,15 @@ public class ImageSearchDatas {
 
     private String searchTerm;
 
+    private int numberOfResults;
+
+    private Optional<String> urlsFilePath;
+
+    private List<String> imagesPaths;
+
+    public ImageSearchDatas() {
+    }
+
     public Optional<String> getUrlsFilePath() {
         return urlsFilePath;
     }
@@ -14,10 +23,6 @@ public class ImageSearchDatas {
     public void setUrlsFilePath(Optional<String> urlsFilePath) {
         this.urlsFilePath = urlsFilePath;
     }
-
-    private Optional<String> urlsFilePath;
-
-    private List<String> imagesPaths;
 
     public String getSearchTerm() {
         return searchTerm;
@@ -27,6 +32,13 @@ public class ImageSearchDatas {
         this.searchTerm = searchTerm;
     }
 
+    public int getNumberOfResults() {
+        return numberOfResults;
+    }
+
+    public void setNumberOfResults(int numberOfResults) {
+        this.numberOfResults = numberOfResults;
+    }
 
     public List<String> getImagesPaths() {
         return imagesPaths;
@@ -36,6 +48,13 @@ public class ImageSearchDatas {
         this.imagesPaths = imagesPaths;
     }
 
-    public ImageSearchDatas() {
+    @Override
+    public String toString() {
+        return "ImageSearchDatas{" +
+                "searchTerm='" + searchTerm + '\'' +
+                ", numberOfResults=" + numberOfResults +
+                ", urlsFilePath=" + urlsFilePath +
+                ", imagesPaths=" + imagesPaths +
+                '}';
     }
 }

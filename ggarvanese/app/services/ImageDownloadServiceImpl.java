@@ -62,7 +62,6 @@ public class ImageDownloadServiceImpl implements ImageDownloadService {
                 } catch (IOException e) {
                     Logger.info(e.getMessage());
                 }
-                Logger.info(">>> " + fileName);
                 imagesPaths.add(term + "/" + fileName);
             }
             return imagesPaths;
