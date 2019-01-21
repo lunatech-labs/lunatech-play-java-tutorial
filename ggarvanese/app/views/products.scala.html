@@ -1,0 +1,29 @@
+@(productList: List[Product])
+
+@main("Product List") {
+
+    <div><a class="memberNameLink" href="@routes.ProductsController.newProduct()">Ajouter un produit</a></div>
+    <hr>
+
+    @for(p <- productList) {
+        <p> <strong>EAN :</strong> @p.ean | <a href="@routes.ProductsController.editProduct(p.ean)">Modifier</a> |
+            <a href="javascript:deleteProduct('@routes.ProductsController.deleteProduct(p.ean)')">Supprimer</a>
+            <br>
+            <strong>Name :</strong> @p.name <br>
+            <strong>Description :</strong> @p.description</p>
+            <img src="@routes.Assets.versioned("images/")@p.imagePath" width="100px" alt="@p.imagePath"/>
+    }
+
+        <script>
+                function deleteProduct(urlToDelete) {
+                    $.ajax({
+                        url: urlToDelete,
+                        type: 'DELETE',
+                        success: function (result) {
+                            location.reload();
+                        }
+                    });
+                }
+        </script>
+    }
+

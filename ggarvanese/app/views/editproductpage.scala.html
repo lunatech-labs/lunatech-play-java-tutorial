@@ -1,0 +1,22 @@
+@(myForm: Form[Product])
+
+@main("Edit Product"){
+
+    @if(flash.get("successEdit")){
+        <div>@flash.get("successEdit")</div>
+    }
+
+    @helper.form(action = helper.CSRF(routes.ProductsController.submitEditProduct())) {
+
+
+
+        @helper.inputText(myForm("ean"))
+        @helper.inputText(myForm("name"))
+        @helper.inputText(myForm("description"))
+        <button type="submit">Save modifications</button>
+        @for(error <- myForm("ean").errors()){
+            <div></div>
+        }
+    }
+
+}

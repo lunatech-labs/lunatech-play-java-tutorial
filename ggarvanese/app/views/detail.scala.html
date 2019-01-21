@@ -1,0 +1,10 @@
+@(p:Product)
+
+@main(s"Product"){
+
+        <p> EAN : @p.ean<br>
+            Name : @p.name<br>
+            Description @p.description</p>
+
+    <p><a class="memberNameLink" href="@routes.ProductsController.editProduct(p.ean)">Modifier le produit</a>
+}
