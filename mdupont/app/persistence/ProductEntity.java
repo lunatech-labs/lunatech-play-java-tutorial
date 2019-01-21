@@ -22,6 +22,7 @@ public class ProductEntity extends Model {
     @Constraints.Required
     private String description;
 
+    @Constraints.Required
     private String url;
 
     public ProductEntity() {

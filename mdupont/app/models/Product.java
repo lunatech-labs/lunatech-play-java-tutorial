@@ -29,18 +29,6 @@ public class Product {
         return ean;
     }
 
-    public List<Product> findAll() {
-        return this.productDao.findAll();
-    }
-
-    public Product findByEan(long ean) {
-        return this.productDao.findByEan(ean);
-    }
-
-    public List<Product> findByName(String name) {
-        return this.productDao.findByName(name);
-    }
-
     public void setEan(long ean) {
         this.ean = ean;
     }
@@ -75,14 +63,6 @@ public class Product {
 
     public void delete(Product product) {
         this.productDao.delete(product);
-    }
-
-    public List<Product> findPage(int page, int length) {
-        return this.productDao.findPage(page, length);
-    }
-
-    public int count() {
-        return this.productDao.count();
     }
 
     @Override

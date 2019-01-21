@@ -22,8 +22,8 @@ public class ImagesController extends Controller {
     SearchService searchService;
 
     @Inject
-    @Named("downloadActor")
-    ActorRef downloadActor;
+    @Named("productManagerActor")
+    ActorRef productManagerActor;
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -37,11 +37,8 @@ public class ImagesController extends Controller {
     }
 
     public Result searchAndDownload(String searchTerm) {
-        this.searchService.search(searchTerm)
-                .whenComplete((filePath, throwable) -> {
-                    this.downloadActor.tell(filePath, ActorRef.noSender());
-                });
+        this.productManagerActor.tell(searchTerm, ActorRef.noSender());
 
-        return ok("Files are being downloaded ...");
+        return redirect(routes.ProductController.index(0, ""));
     }
 }

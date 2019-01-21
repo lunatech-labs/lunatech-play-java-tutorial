@@ -1,9 +1,8 @@
 import actors.ChuckNorrisActor;
-import actors.DbUpdateImageActor;
+import actors.DatabaseActor;
 import actors.DownloadActor;
-import actors.messages.DBUpdateImageActorMsg;
+import actors.ProductManagerActor;
 import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
 import models.ProductDao;
 import persistence.ProductDaoImpl;
 import play.libs.akka.AkkaGuiceSupport;
@@ -33,6 +32,7 @@ public class Module extends AbstractModule implements AkkaGuiceSupport {
         bind(ProductDao.class).to(ProductDaoImpl.class);
         bindActor(ChuckNorrisActor.class, "theActor");
         bindActor(DownloadActor.class, "downloadActor");
-        bindActor(DbUpdateImageActor.class, "dbUpdateImageActor");
+        bindActor(DatabaseActor.class, "dbUpdateImageActor");
+        bindActor(ProductManagerActor.class, "productManagerActor");
     }
 }

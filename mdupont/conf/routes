@@ -11,7 +11,8 @@ GET     /images                        controllers.ImagesController.search(messa
 GET     /images/download               controllers.ImagesController.searchAndDownload(message:String)
 
 # An example controller showing how to use dependency injection
-GET     /products                      controllers.ProductController.index
+GET     /products/filter               controllers.ProductController.filter
+GET     /products                      controllers.ProductController.index(page:Integer, description:String)
 GET     /products/new                  controllers.ProductController.getCreateNew
 GET     /products/loadSamples          controllers.ProductController.loadSamples
 POST    /products/create               controllers.ProductController.setCreateNew

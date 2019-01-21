@@ -1,7 +1,7 @@
 package persistence;
 
 import com.google.inject.Singleton;
-import io.ebean.Finder;
+import io.ebean.*;
 import models.Product;
 import models.ProductDao;
 import play.Logger;
@@ -52,6 +52,21 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public void update(Product product) {
+        ProductEntity entity = find.query().where()
+                .eq("ean", product.getEan())
+                .orderBy("ean")
+                .findOne();
+
+        entity.setName(product.getName());
+        entity.setDescription(product.getDescription());
+        entity.setUrl(product.getUrl());
+
+        Logger.debug("Product updated " + product.toString());
+        entity.update();
+    }
+
+    @Override
     public void delete(Product product) {
         ProductEntity entity = new ProductEntity();
         entity.setEan(product.getEan());
@@ -60,20 +75,31 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> findPage(int page, int length) {
-        return find.query()
-                .where()
-                .setFirstRow(page * length)
+    public List<Product> findPage(int page, int length, String description) {
+        ExpressionList<ProductEntity> expression = find.query().where();
+
+        if (!description.isEmpty()) {
+            expression.contains("description", description);
+        }
+
+        return expression.setFirstRow(page * length)
                 .setMaxRows(length)
+                .orderBy("name")
                 .findList()
                 .stream()
                 .map(productEntity -> productEntity.toProduct()).collect(Collectors.toList());
-
     }
 
     @Override
-    public int count() {
-        return find.query().where().findCount();
+    public int count(String description) {
+
+        ExpressionList<ProductEntity> expression = find.query().where();
+
+        if (!description.isEmpty()) {
+            expression.contains("description", description);
+        }
+
+        return expression.findCount();
     }
 
     @Override
@@ -81,7 +107,25 @@ public class ProductDaoImpl implements ProductDao {
         return find
                 .query()
                 .where()
-                .like("description", description)
+                .contains("description", description)
+                .orderBy("name")
+                .findList()
+                .stream().map(productEntity -> productEntity.toProduct()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Product> findByDescriptionAndUrlIsEmpty(String description) {
+        return find
+                .query()
+                .where()
+                .and(
+                        Expr.contains("description", description),
+                        Expr.or(
+                                Expr.isNull("url"),
+                                Expr.eq("url", "")
+                        )
+                )
+                .orderBy("name")
                 .findList()
                 .stream().map(productEntity -> productEntity.toProduct()).collect(Collectors.toList());
     }

@@ -3,6 +3,8 @@ package controllers;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 import dto.ProductDto;
+import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
 import play.i18n.Messages;
@@ -43,23 +45,37 @@ public class ProductController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index() {
+    public Result index(Integer page, String description) {
         Messages messages = Http.Context.current().messages();
 
         final Map<String, String[]> entries = request().queryString();
 
-        int page = 0;
+//        int page = 0;
+//        String description = "";
         int length = DEFAULT_LENGTH;
-        if (!entries.isEmpty()) {
-            page = Integer.valueOf(entries.get("page")[0]);
-        }
+//        if (!entries.isEmpty()) {
+//            if (entries.get("page") != null) {
+//                page = Integer.valueOf(entries.get("page")[0]);
+//            }
+//            if (entries.get("description") != null) {
+//                description = entries.get("description")[0];
+//            }
+//        }
 
         return ok(product.render(
                 messages,
-                this.productService.findPage(page, length),
-                this.productService.count(),
+                this.productService.findPage(page, length, description),
+                this.productService.count(description),
                 page,
-                length));
+                length,
+                description));
+    }
+
+    public Result filter() {
+        final DynamicForm form = this.formFactory.form().bindFromRequest();
+        String searchStr = form.get("search");
+
+        return this.index(0, searchStr);
     }
 
     public Result getUpdate(Long ean) {
@@ -88,9 +104,9 @@ public class ProductController extends Controller {
                 result.setName(productFormDetail.getName());
                 result.setDescription(productFormDetail.getDescription());
 
-                this.productService.save(result);
+                this.productService.update(result);
 
-                return redirect(routes.ProductController.index());
+                return redirect(routes.ProductController.index(0, ""));
             }
         }
 
@@ -112,7 +128,7 @@ public class ProductController extends Controller {
 
             this.productService.save(product);
 
-            return redirect(routes.ProductController.index());
+            return redirect(routes.ProductController.index(0, ""));
         }
     }
 
@@ -123,7 +139,7 @@ public class ProductController extends Controller {
             // Set data to the actual object.
             this.productService.delete(product);
 
-            return redirect(routes.ProductController.index());
+            return redirect(routes.ProductController.index(0, ""));
         }
 
         return badRequest("Server error");
@@ -144,9 +160,9 @@ public class ProductController extends Controller {
         List<String[]> allRows = parser.parseAll(new InputStreamReader(this.getClass().getResourceAsStream("/public/hikea-names.csv"), "UTF-8"));
 
         for (String[] oneRow : allRows) {
-            this.productService.save(new ProductDto(0, oneRow[0], oneRow[1]));
+            this.productService.save(new ProductDto(0, oneRow[0], oneRow[1], null));
         }
 
-        return redirect(routes.ProductController.index());
+        return redirect(routes.ProductController.index(0, ""));
     }
 }

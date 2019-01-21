@@ -1,6 +1,5 @@
 package actors;
 
-import actors.messages.DBUpdateImageActorMsg;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedAbstractActor;
@@ -9,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import models.SearchImageData;
-import actors.DbUpdateImageActor;
 import play.Logger;
 import services.DownloadService;
 
@@ -17,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class DownloadActor extends UntypedAbstractActor {
 
@@ -36,7 +35,8 @@ public class DownloadActor extends UntypedAbstractActor {
      *
      * @param filePath File to read and download from.
      */
-    protected void doDownloadFromFile(File filePath) {
+    protected List<String> doDownloadFromFile(File filePath) {
+        List<String> retVal = new ArrayList<>();
 
         ObjectMapper mapper = new ObjectMapper();
         List<SearchImageData> searchImageDatas;
@@ -45,37 +45,32 @@ public class DownloadActor extends UntypedAbstractActor {
             });
         } catch (IOException e) {
             play.Logger.error("Error with deserialization", e);
-            return;
+            return retVal;
         }
 
 
         // Find the directory where we will add files based on the filePath to read
         String dirPath = filePath.getName().substring(0, filePath.getName().lastIndexOf('.'));
 
-        // Run async thread to dowload and save files.
-        for (SearchImageData searchImageData : searchImageDatas) {
-            this.downloadService.downloadImageFile(searchImageData.getUrl(), dirPath)
-                    .whenComplete((publicAssetPath, throwable) -> {
-                        if (throwable != null) {
-                            Logger.error("Can't download file", throwable);
-                        }
-
-                        publicAssetPath.ifPresent(assetPath -> {
-                            // Truncate only the public asset path from the full path
-                            String formattedAssetPath = assetPath.toString().substring(assetPath.toString().indexOf("/public") + "/public".length());
-
-                            // Start the update.
-                            this.dbUpdateImageActor.tell(new DBUpdateImageActorMsg(dirPath, formattedAssetPath), ActorRef.noSender());
+        CompletableFuture.runAsync(() -> {
+            // Download every files we found. For every download we update the database for this corresponding result.
+            for (SearchImageData searchImageData : searchImageDatas) {
+                this.downloadService.downloadImageFile(searchImageData.getUrl(), dirPath)
+                        .whenComplete((publicAssetPath, throwable) -> {
+                            publicAssetPath.ifPresent(assetPath -> retVal.add(assetPath.toString()));
                         });
-                    });
 
-        }
+            }
+        }).toCompletableFuture().join();
+
+        return retVal;
     }
 
     @Override
     public void onReceive(Object message) throws Throwable {
         if (message instanceof File) {
-            doDownloadFromFile((File) message);
+            List<String> downloadedFiles = doDownloadFromFile((File) message);
+            sender().tell(downloadedFiles, self());
         } else {
             Logger.error("Wrong message type expected by DownloadActor");
         }

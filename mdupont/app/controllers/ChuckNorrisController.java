@@ -26,7 +26,8 @@ public class ChuckNorrisController extends Controller {
     public CompletionStage<Result> getJoke(String message) {
         Messages messages = Http.Context.current().messages();
 
-        return FutureConverters.toJava(ask(chuckNorrisActor, message, 5000))
+        return FutureConverters.toJava(
+                ask(chuckNorrisActor, message, 5000))
                 .thenApply(response -> ok(jokes.render(messages, (String) response)));
     }
 }
