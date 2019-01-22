@@ -16,3 +16,4 @@ server.pid
 .cache
 kduchemin/.DS_Store
 .DS_Store
+*.db

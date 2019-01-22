@@ -65,6 +65,15 @@ public class ProductH2EbeanDAO implements ProductDAO {
         return mapToProductList(entities);
     }
 
+    @Override
+    public List<Product> findEmptyFieldsByDescription(String description, String fieldToFind) {
+        List<ProductEntity> entities = find.query()
+                .where().contains("description", description)
+                .and().isNull(fieldToFind)
+                .findList();
+        return mapToProductList(entities);
+    }
+
     private Product mapToProduct(ProductEntity entity) {
         Product product = new Product();
         product.setEan(entity.getEan());

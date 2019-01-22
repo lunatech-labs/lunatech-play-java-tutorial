@@ -17,4 +17,6 @@ public interface ProductDAO {
     void delete(Product product);
 
     List<Product> findByDescription(String description);
+
+    List<Product> findEmptyFieldsByDescription(String description, String fieldToFind);
 }

@@ -1,7 +1,4 @@
-import actors.ImageSearchActor;
-import actors.ImagesDownloaderActor;
-import actors.ImagesProductsUpdateActor;
-import actors.JokeActor;
+import actors.*;
 import com.google.inject.AbstractModule;
 import models.ProductDAO;
 import persistence.ProductH2EbeanDAO;
@@ -31,6 +28,7 @@ public class Module extends AbstractModule implements AkkaGuiceSupport {
         bindActor(ImageSearchActor.class, "imagesSearchActor");
         bindActor(ImagesDownloaderActor.class, "imagesDownloaderActor");
         bindActor(ImagesProductsUpdateActor.class, "imagesProductsUpdateActor");
+        bindActor(ImagesUpdaterActor.class, "imagesUpdaterActor");
     }
 
 }

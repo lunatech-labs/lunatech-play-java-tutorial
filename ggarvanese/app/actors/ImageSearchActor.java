@@ -30,7 +30,7 @@ public class ImageSearchActor extends AbstractActor {
                 .build();
     }
 
-    private CompletionStage<ImageSearchDatas> doSearchImages(ImageSearchDatas imageSearchDatas){
+    private CompletionStage<ImageSearchDatas> doSearchImages(ImageSearchDatas imageSearchDatas) {
         return imageService.searchAndStoreURLs(imageSearchDatas);
     }
 
