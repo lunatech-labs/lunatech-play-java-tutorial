@@ -13,7 +13,17 @@ public class ImageSearchDatas {
 
     private List<String> imagesPaths;
 
+    private List<Product> productsToUpdate;
+
     public ImageSearchDatas() {
+    }
+
+    public List<Product> getProductsToUpdate() {
+        return productsToUpdate;
+    }
+
+    public void setProductsToUpdate(List<Product> productsToUpdate) {
+        this.productsToUpdate = productsToUpdate;
     }
 
     public Optional<String> getUrlsFilePath() {

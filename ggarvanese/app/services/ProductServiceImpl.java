@@ -1,9 +1,10 @@
 package services;
 
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Streams;
 import models.ImageSearchDatas;
 import models.Product;
 import models.ProductDAO;
-import play.Logger;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -57,24 +58,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> updateProducts(ImageSearchDatas imageSearchDatas) {
-        String term = imageSearchDatas.getSearchTerm();
         List<String> filesPath = imageSearchDatas.getImagesPaths();
-        List<Product> results = this.findByCriteria("description", term);
-        Iterator<Product> itProducts = results.listIterator();
-        Iterator<String> itPaths = filesPath.listIterator();
-        while (itProducts.hasNext() && itPaths.hasNext()) {
-            Product p = itProducts.next();
-            String imagePath = itPaths.next();
-            Logger.info("---------------");
-            Logger.info("imagePath = " + imagePath);
-            p.setImagePath(imagePath);
-            Logger.info("updateted : " + p.getName() + " -> " + p.getImagePath());
-            productDAO.update(p);
-            Logger.info("My updated Product : " + productDAO.findByEAN(p.getEan()));
-            Logger.info("---------------");
-
-            //TODO Look at zip function to iterate over the two lists
-        }
-        return results;
+        List<Product> products = imageSearchDatas.getProductsToUpdate();
+        ImmutableListMultimap<String, Product> results = Streams.zip(filesPath.stream(), products.stream(), AbstractMap.SimpleImmutableEntry::new)
+                .collect(ImmutableListMultimap.toImmutableListMultimap(Map.Entry::getKey, Map.Entry::getValue));
+        results.forEach((path, product) -> {
+            product.setImagePath(path);
+            productDAO.update(product);
+        });
+        return new ArrayList<>(results.values());
     }
 }

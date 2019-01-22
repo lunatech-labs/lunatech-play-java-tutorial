@@ -39,6 +39,7 @@ public class ImagesUpdaterActor extends AbstractActor {
         List<Product> products = productDAO.findEmptyFieldsByDescription(imageSearchDatas.getSearchTerm(), "imagePath");
         imageSearchDatas.setNumberOfResults(products.size());
         if (!products.isEmpty()) {
+                imageSearchDatas.setProductsToUpdate(products);
                 FutureConverters.toJava(Patterns.ask(imageSearchActor, imageSearchDatas, 10000));
         }
         return CompletableFuture.completedFuture(imageSearchDatas);
