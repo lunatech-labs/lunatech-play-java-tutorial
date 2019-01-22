@@ -1,19 +1,34 @@
 @(productList: List[Product])
 
-@main(Messages("index.productlist")) {
+    @main(Messages("index.productlist")) {
 
-    <div><a class="memberNameLink" href="@routes.ProductsController.newProduct()">Ajouter un produit</a></div>
-    <hr>
-
-    @for(p <- productList) {
-        <p> <strong>EAN :</strong> @p.ean | <a href="@routes.ProductsController.editProduct(p.ean)">Modifier</a> |
-            <a href="javascript:deleteProduct('@routes.ProductsController.deleteProduct(p.ean)')">Supprimer</a>
-            <br>
-            <strong>Name :</strong> @p.name <br>
-            <strong>Description :</strong> @p.description</p>
-            <img src="@routes.Assets.versioned("images/")@p.imagePath" width="100px" alt="@p.imagePath"/>
-    }
-
+        <div class="col-lg-9">
+            <div class="row">
+                <div><a class="memberNameLink" href="@routes.ProductsController.newProduct()">Ajouter un produit</a></div>
+                <hr>
+                @for(p <- productList) {
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="@routes.Assets.versioned("images/")@p.imagePath" alt="@p.imagePath"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">@p.name</a>
+                                </h4>
+                                @*<h5>$24.99</h5>*@
+                                <p class="card-text">@p.description</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    <a href="@routes.ProductsController.editProduct(p.ean)">@Messages("product.modify")</a>
+                                    |
+                                    <a href="javascript:deleteProduct('@routes.ProductsController.deleteProduct(p.ean)')">@Messages("product.delete")</a>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
         <script>
                 function deleteProduct(urlToDelete) {
                     $.ajax({

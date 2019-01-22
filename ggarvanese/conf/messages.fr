@@ -1,5 +1,8 @@
 index.ready=Votre nouvelle application est prête
 index.title=Bienvenue chez HIQUEA
 index.initdatabase=Initialiser la base de données
+index.flushdatabase=Supprimer la base de données
 index.productlist=Consulter la liste de nos produits
 images.title=Images
+product.modify=Modifier
+product.delete=Supprimer

@@ -1,9 +1,11 @@
+/*
 body, html {
     height: 100%;
-}
-#bg {
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url("/assets/images/latest-home-wallpaper_015623955_147.jpg") no-repeat fixed;
     background-size: cover;
 }
+
+.product-main-block {
+    background-color: rgba(100%, 100%, 100%, 0.8);
+
+}*/

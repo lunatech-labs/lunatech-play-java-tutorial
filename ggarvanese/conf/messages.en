@@ -1,5 +1,7 @@
-index.ready=Your new application is ready
 index.title=Welcome to HIQUEA
-index.initdatabase=Database initialization
+index.initdatabase=Initialize database
+index.flushdatabase=Delete database
 index.productlist=See products list
 images.title=Images
+product.modify=Modify
+product.delete=Delete
