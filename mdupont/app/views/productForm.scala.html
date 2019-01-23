@@ -5,27 +5,33 @@
 @import dto.ProductDto
 
 @(productForm: Form[ProductDto])
+@*
+* Call the `main` template with two arguments. The first
+* argument is a `String` with the title of the page, the second
+* argument is an `Html` object containing the body of the page.
+*@
+@main("Create a product") {
     @*
-    * Call the `main` template with two arguments. The first
-    * argument is a `String` with the title of the page, the second
-    * argument is an `Html` object containing the body of the page.
+    * Get an `Html` object by calling the built-in Play welcome
+    * template and passing a `String` message.
     *@
-    @main("Create a product") {
-        @*
-        * Get an `Html` object by calling the built-in Play welcome
-        * template and passing a `String` message.
-        *@
-        <div style="width: 100vw;
-            display: flex;
-            justify-content: center;">
-            <div style="width: 500px; padding: 10px; border-radius: 10px; background: rgba(220, 220, 220, 0.9)">
-            @helper.form(action = helper.CSRF(routes.ProductController.setCreateNew()), 'class -> "form-group") {
+    <div class="card">
 
-                @helper.inputText(productForm("name"), 'class -> "form-control")
-                @helper.inputText(productForm("description"), 'class -> "form-control", 'size -> 10)
+        <h5 class="card-header info-color white-text text-center py-4">
+            <strong>Create new product</strong>
+        </h5>
 
-                <button class="btn btn-primary" type="submit">Save</button>
-            }
-            </div>
+            <!--Card content-->
+        <div class="card-body px-lg-5 pt-0">
+        @helper.form(action = helper.CSRF(routes.ProductController.setCreateNew()), 'class -> "text-center border border-light p-5") {
+
+            @helper.inputText(productForm("name"), 'class -> "form-control mb-4")
+            @helper.inputText(productForm("description"), 'class -> "form-control mb-4", 'size -> 10)
+
+            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-secondary" onClick="javascript:history.back();">Cancel</button>
+        }
+
         </div>
-    }
+    </div>
+}

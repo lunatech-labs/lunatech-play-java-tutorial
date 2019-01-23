@@ -26,7 +26,7 @@ public class ChuckNorrisActor extends AbstractActor {
         return receiveBuilder()
                 .match(String.class, message -> {
                     doSendReceive()
-                            .whenComplete((response, e) -> sender().tell(message + ":" + response, self())).toCompletableFuture().join();
+                            .whenComplete((response, e) -> sender().tell(response, self())).toCompletableFuture().join();
                 })
                 .build();
     }

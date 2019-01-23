@@ -119,14 +119,26 @@ public class ProductController extends Controller {
     }
 
     public Result setCreateNew() {
-        Form<ProductDto> form = this.formFactory.form(ProductDto.class).bindFromRequest();
+        final DynamicForm form = this.formFactory.form().bindFromRequest();
+        Integer ean = Integer.valueOf(form.get("ean"));
+        String name = form.get("name");
+        String description = form.get("description");
 
         if (form.hasErrors()) {
-            return badRequest(views.html.productForm.render(form));
+            Logger.error("Product setCreateNew errors");
+            return badRequest();
         } else {
-            ProductDto product = form.value().get();
+            if (ean == 0) { // Create new
+                ProductDto product = new ProductDto(ean, name, description);
 
-            this.productService.save(product);
+                this.productService.save(product);
+            } else {
+                ProductDto product = this.productService.findByEan(ean);
+                product.setDescription(description);
+                product.setName(name);
+
+                this.productService.update(product);
+            }
 
             return redirect(routes.ProductController.index(0, ""));
         }

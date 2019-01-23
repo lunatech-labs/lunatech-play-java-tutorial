@@ -1,22 +1,28 @@
 @*
- * This template takes a single argument, a String containing a
- * message to display.
- *@
+* This template takes a single argument, a String containing a
+* message to display.
+*@
 @(loggedInUser: String)
 
-@*
- * Call the `main` template with two arguments. The first
- * argument is a `String` with the title of the page, the second
- * argument is an `Html` object containing the body of the page.
- *@
-@main("Welcome to Play") {
-
-    @*
-    * Get an `Html` object by calling the built-in Play welcome
-    * template and passing a `String` message.
-    *@
-
-    <div>
-
+<!--Navbar -->
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color">
+    <a class="navbar-brand" href="/">Hiquea</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
+    aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                    <i class="fas fa-user"></i>@Messages("main.languages.title")</a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                    <a class="dropdown-item" href="@routes.HomeController.lang("fr")">@Messages("main.languages.french")</a>
+                    <a class="dropdown-item" href="@routes.HomeController.lang("en")">@Messages("main.languages.english")</a>
+                </div>
+            </li>
+        </ul>
     </div>
-}
+</nav>
+    <!--/.Navbar -->

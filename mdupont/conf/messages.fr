@@ -1,2 +1,6 @@
-main.welcome = Bienvenue chez Hiquea
-main.products = Produits
+main.welcome=Bienvenue chez Hiquea
+main.products=Produits
+main.jokes=Blagues
+main.languages.title=Langues
+main.languages.french=Français
+main.languages.english=Anglais

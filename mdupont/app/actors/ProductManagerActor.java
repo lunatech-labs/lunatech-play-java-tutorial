@@ -42,7 +42,8 @@ public class ProductManagerActor extends UntypedAbstractActor {
     }
 
     /**
-     * This method check that all products have a picture, otherwise it starts the search, download, and update actors.
+     * This method check that all products have a picture, otherwise it starts the search, download, and update actors till the end
+     *  of the updatable products available.
      *
      * @param searchTerm {String} The search term we are looking for.
      */
