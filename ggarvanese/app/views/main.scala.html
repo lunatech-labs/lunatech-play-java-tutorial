@@ -57,7 +57,7 @@
 
                     <h1 class="my-4"> </h1>
                     <div class="list-group">
-                        <a href="#" class="list-group-item">Category 1</a>
+                        <a href="@routes.ProductsController.newProduct()" class="list-group-item">@Messages("product.add")</a>
                         <a href="#" class="list-group-item">Category 2</a>
                         <a href="#" class="list-group-item">Category 3</a>
                         <form class="navbar-form" role="search">
@@ -71,10 +71,10 @@
                     </div>
                 </div>
                     <!-- /.col-lg-3 -->
-            </div>
+
 
             @content
-
+            </div>
         </div>
             <!-- /.container -->
 

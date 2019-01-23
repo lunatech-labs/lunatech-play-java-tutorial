@@ -5,3 +5,5 @@ index.productlist=See products list
 images.title=Images
 product.modify=Modify
 product.delete=Delete
+product.add=Add a product
+product.createform_submit=Add new product

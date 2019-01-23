@@ -6,3 +6,5 @@ index.productlist=Consulter la liste de nos produits
 images.title=Images
 product.modify=Modifier
 product.delete=Supprimer
+product.add=Ajouter un produit
+product.createform_submit=Ajouter

@@ -6,15 +6,24 @@
         <div>@flash.get("successAdded")</div>
     }
 
+    <div class="jumbotron">
+        <h1>@Messages("product.add")</h1>
     @helper.form(action = helper.CSRF(routes.ProductsController.submitNewProduct())) {
-        @helper.inputText(myForm("ean"))
-        @helper.inputText(myForm("name"))
-        @helper.inputText(myForm("description"))
-            <button type="submit">Create product</button>
+        <div class="form-group">
+        @helper.input(myForm("Product name")){ (id, name, value, args) =>
+            <input type="text" class="form-control" placeholder="Product name" id="@id" @toHtmlArgs(args)>
+        }
+        </div>
+        <div class="form-group">
+        @helper.input(myForm("Description")){ (id, name, value, args) =>
+            <input type="text" class="form-control" placeholder="Description" id="@id" @toHtmlArgs(args)>
+        }
+        </div>
+        <button type="submit" class="btn btn-primary">@Messages("product.createform_submit")</button>
         @for(error <- myForm("ean").errors()){
             <div></div>
         }
     }
-
+    </div>
 
 }
