@@ -5,20 +5,14 @@ import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import play.Logger;
-import play.i18n.Messages;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 import scala.compat.java8.FutureConverters;
 import util.Util;
-import views.html.*;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
 
 import static akka.pattern.Patterns.ask;
 
